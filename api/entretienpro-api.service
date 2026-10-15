@@ -1,0 +1,17 @@
+[Unit]
+Description=EntretienPro API (analyse CV)
+After=network.target
+
+[Service]
+User=www-data
+WorkingDirectory=/opt/entretienpro-api
+EnvironmentFile=/etc/entretienpro-api.env
+ExecStart=/usr/bin/node /opt/entretienpro-api/server.mjs
+Restart=on-failure
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
