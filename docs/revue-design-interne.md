@@ -195,3 +195,23 @@ Chaque membre a une mission, des points précis à vérifier, un droit de veto �
 - Un veto est motivé par écrit, avec la référence du point concerné.
 - Les membres IA produisent des recommandations. Aucun ne modifie la production.
 - La composition est fictive et sert à structurer la revue. Elle ne doit pas être présentée comme une instance réelle ou une certification.
+
+## Membres complémentaires (rôles fictifs)
+
+Ajoutés pour couvrir les angles absents des fiches précédentes.
+
+| Membre | Mission | Vérifie précisément | Veto | Limite |
+|---|---|---|---|---|
+| **Juriste (droit numérique et consommation)** | Contrôler le cadre légal de l'offre | CGU, CGV, politique de confidentialité, droit de rétractation, mentions légales | Oui, sur une clause illégale ou trompeuse | Signale le risque, ne rédige pas de contrat engageant |
+| **Évaluateur de qualité IA** | Mesurer la fiabilité des sorties du modèle | Hallucinations, incohérences avec le CV, conseils contradictoires, réponses hors sujet, sur un jeu de CV fictifs | Oui, si le taux d'erreur dépasse le seuil défini par l'équipe | Ne juge pas le fond métier, ce rôle est celui du juré RH |
+| **Testeur QA fonctionnel** | Vérifier que l'appli fait ce qu'elle annonce | Chaque parcours, chaque bouton, chaque format de fichier (PDF, TXT, HTML), cas limites, cas d'erreur | Oui, sur un parcours cassé | Ne corrige pas le code |
+| **Chercheur UX (tests utilisateurs)** | Observer les vrais utilisateurs et leurs blocages | Points d'abandon, questions posées, incompréhensions, temps pour obtenir un premier résultat | Non | Ne décide pas seul des changements, il alimente le juré UX |
+| **Expert accessibilité cognitive** | Vérifier que le résultat est compréhensible sans effort | Langage clair, phrases courtes, pas de jargon non expliqué, structure lisible, ton non anxiogène | Oui, si un résultat peut décourager ou désorienter | Ne traite pas l'accessibilité technique, ce rôle est celui du juré UX |
+| **Analyste financier (rentabilité)** | Appliquer la porte go / no-go sur des chiffres mesurés | Coût par analyse, marge brute, point mort, coût par utilisateur gratuit | Oui, sur une formule non rentable | Ne prédit rien sans données mesurées |
+
+## Règles des membres complémentaires
+
+- Le juriste et l'analyste financier ne notent pas le design : leur rôle est un gate, pas une note.
+- L'évaluateur de qualité IA n'utilise que des CV fictifs, jamais de vrais CV.
+- Le chercheur UX ne reçoit que des données anonymisées de sessions consenties.
+- Le veto de l'évaluateur IA et du QA est motivé par écrit, avec un exemple reproductible.
