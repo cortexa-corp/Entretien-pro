@@ -723,6 +723,11 @@ async function runAnalysis() {
     return;
   }
 
+  if (currentMode === 'lettre' && !lettre) {
+    alert('Collez la lettre de motivation avant de lancer l\'analyse de lettre.');
+    return;
+  }
+
   const btn = document.getElementById('btn-run');
   btn.disabled = true;
 
@@ -767,11 +772,11 @@ async function runAnalysis() {
 
   clearInterval(stepTimer);
   loading.style.display = 'none';
-  renderResult(result, poste, persona);
+  renderResult(result, poste, persona, currentMode);
   btn.disabled = false;
 }
 
-function renderResult(r, poste, persona) {
+function renderResult(r, poste, persona, mode = 'audit') {
   const zone = document.getElementById('result-zone');
   zone.innerHTML = '';
   zone.style.display = 'flex';
@@ -863,7 +868,19 @@ function renderResult(r, poste, persona) {
       <strong>Mode démo :</strong> ce résultat est un exemple fictif, il ne reflète pas votre CV.
     </div>`;
 
-  zone.innerHTML = demoBanner + toolbarHtml + scoreHtml + verdictHtml + pointsHtml + qHtml;
+  const letterNotice = `
+    <div class="report-section">
+      <div class="report-body" style="font-size:13px;line-height:1.6;color:var(--fg-2);">
+        L'analyse de la lettre de motivation n'est pas encore branchée à l'API. Aucun résultat n'est affiché pour cette lettre.
+      </div>
+    </div>`;
+  const sectionsByMode = {
+    audit: [scoreHtml, verdictHtml, pointsHtml, qHtml],
+    entretien: [qHtml],
+    lettre: [letterNotice]
+  };
+  const sections = sectionsByMode[mode] || sectionsByMode.audit;
+  zone.innerHTML = demoBanner + toolbarHtml + sections.join('');
 }
 
 function toggleQA(el) {
