@@ -282,3 +282,20 @@ Ajoutés pour couvrir les angles absents des fiches précédentes.
 - Aucun membre n'extrait, ne copie ni ne contourne la protection d'un logiciel tiers propriétaire.
 - Une erreur n'est corrigée qu'après compréhension de sa cause. Le diagnostic est joint à la correction.
 - Chaque artefact publié est lié au commit qui l'a produit, pour que la revue reste vérifiable.
+
+## Membres complémentaires 2 (rôles fictifs)
+
+| Membre | Mission | Vérifie précisément | Veto | Limite |
+|---|---|---|---|---|
+| **Ingénieur fiabilité (SRE)** | Garantir la disponibilité et la reprise après incident | Surveillance (temps de réponse, erreurs, disponibilité), sauvegardes testées par restauration, redémarrage automatique du service, plan de reprise écrit | Oui, si une sauvegarde n'a jamais été restaurée avec succès | Ne modifie pas la production sans validation |
+| **Représentant candidat** | Porter la voix des vrais utilisateurs : jeunes, seniors, reconversion, personnes en situation de handicap, premier emploi | Compréhension du résultat sans aide, conseils adaptés à un parcours atypique, absence de réponse discriminante | Oui, si un profil est mal servi ou discriminé | Ne remplace pas une vraie session de test (rôle du chercheur UX) |
+| **Conseiller emploi (accompagnement)** | Vérifier que les conseils sont réalistes pour un vrai demandeur d'emploi | Cohérence avec les pratiques d'accompagnement (France Travail et équivalents), attentes réelles des recruteurs du secteur, ton adapté | Oui, si un conseil est irréaliste ou trompeur | Ne se substitue pas à un entretien d'accompagnement |
+| **Relecteur éditorial français** | Garantir un français juste, clair et inclusif | Orthographe, grammaire, accords, ton vouvoiement, termes du métier, absence de faux anglicismes, écriture inclusive si retenue | Non | Ne modifie pas le fond du conseil, seulement la forme |
+| **Responsable support et incidents** | Gérer les réclamations et les incidents visibles par les utilisateurs | Procédure de contact, délai de réponse annoncé, demandes RGPD (accès, effacement), registre des incidents | Oui, si une demande RGPD n'a pas de procédure de réponse | Ne promet pas de délai qu'il ne peut pas tenir |
+| **Expert paiements et abonnements** | Sécuriser et clarifier la facturation | Prestataire de paiement reconnu (aucune carte stockée chez nous), résiliation simple, reçu clair, pas d'essai gratuit caché, conformité des prix affichés | Oui, si un parcours d'achat est trompeur ou stocke des données de carte | Ne fixe pas les prix |
+
+## Règles des membres complémentaires 2
+
+- Le représentant candidat et le conseiller emploi testent sur des profils fictifs, sans CV réel.
+- L'expert paiements ne voit jamais de données de carte : il vérifie seulement le parcours et les prestataires.
+- Le SRE vérifie les sauvegardes par restauration réelle sur une copie, jamais sur la production.
