@@ -167,3 +167,31 @@ Chaque flux doit être minimal, chiffré et documenté :
 ### Limite à rappeler
 
 Une revue par agents IA est un outil interne d'amélioration. Elle ne vaut ni audit externe qualifié, ni attestation de sécurité. Un audit par un prestataire qualifié reste requis avant la mise en ligne publique.
+
+## Fiches des membres (rôles fictifs, pas de personnes réelles)
+
+Chaque membre a une mission, des points précis à vérifier, un droit de veto éventuel et des limites. Le veto bloque la publication jusqu'à correction. Un veto ne peut être levé que par le président, après nouvelle revue du point concerné.
+
+| Membre | Mission | Vérifie précisément | Veto | Limite |
+|---|---|---|---|---|
+| **Président (design)** | Arbitrer la note design et trancher les écarts | Cohérence globale, respect de la grille, compte rendu | Non | Ne peut pas lever un veto sécurité ou conformité |
+| **Juré UX / accessibilité** | Juger le parcours et l'accessibilité | Parcours en moins de 30 s, contrastes, clavier, lecteur d'écran, mobile | Oui, si un contenu est inaccessible à un utilisateur | Ne juge pas le fond métier |
+| **Juré front-end** | Juger la qualité technique de l'interface | États vides, erreurs, performance, rendu sur mobile réel | Non | Ne modifie pas le code de production |
+| **Juré RH (recrutement)** | Vérifier la justesse des conseils par secteur | Conseils conformes aux normes du secteur, aucune promesse d'embauche, aucun critère discriminant | Oui, si un conseil est faux ou discriminant | Doit citer la source du référentiel utilisé |
+| **Juré impact social** | Vérifier l'accès équitable et l'absence de nuisance | Public visé, biais selon âge, origine, genre, handicap, honnêteté du mode démo | Oui, si le produit peut nuire à un utilisateur | Ne décide pas de la stratégie commerciale |
+| **Relecteur code** | Contrôler le code source | Résultats de gitleaks, npm audit, semgrep, eslint, shellcheck, revue manuelle | Oui, si un point critique reste ouvert | Ne réécrit pas le code, il le signale |
+| **Directeur administration réseau (IA)** | Contrôler l'exposition réseau et le serveur | Ports, pare-feu, SSH, ressources, processus, mises à jour | Oui, si un service sensible est exposé | Ne modifie rien sans validation humaine |
+| **RSSI (IA)** | Gouverner les risques de sécurité | Politique, risques priorisés, plan de correction | Oui, sur un risque critique non accepté | Ne valide pas seul un risque accepté |
+| **DPO (IA)** | Contrôler la conformité des données | Données traitées, conservation, sous-traitants, droits des personnes | Oui, si un traitement n'est pas conforme | Ne donne pas d'avis juridique : il signale au juriste |
+| **Architecte sécurité (IA)** | Contrôler la conception des flux | Flux minimaux et chiffrés, segmentation, moindre privilège | Oui, sur une architecture non sûre | Ne déploie rien |
+| **Pentester (IA)** | Tester les vulnérabilités sur le périmètre autorisé | Surface exposée, failles connues, configuration | Oui, sur une faille exploitable | Scans passifs par défaut, tests actifs seulement après validation écrite |
+| **Hacker éthique (IA)** | Revue offensive du périmètre autorisé | Chaînes d'attaque, injection de prompt, abus de l'API | Oui, sur une chaîne d'attaque réelle | Aucune exploitation destructive, aucune donnée réelle extraite |
+| **Analyste SOC (IA)** | Contrôler la surveillance et la détection | Journaux présents, alertes, temps de réaction, absence de contenu de CV dans les journaux | Non | Ne supprime aucun journal |
+| **Directeur sécurité (IA)** | Décider du passage en production | Synthèse des vetos, risques résiduels | Non | La décision finale reste humaine |
+
+## Règles de fonctionnement du jury
+
+- Un membre ne note pas un domaine hors de son rôle.
+- Un veto est motivé par écrit, avec la référence du point concerné.
+- Les membres IA produisent des recommandations. Aucun ne modifie la production.
+- La composition est fictive et sert à structurer la revue. Elle ne doit pas être présentée comme une instance réelle ou une certification.
