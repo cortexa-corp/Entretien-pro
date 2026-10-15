@@ -73,3 +73,41 @@ Cette porte ne fait pas partie de la note design. Elle se vérifie avec des chif
 - Conditions générales de vente et politique de remboursement.
 - Promesses commerciales : aucune garantie d'embauche, aucune comparaison chiffrée non sourcée.
 - Pour un public de particuliers, la conformité des paiements et des abonnements (droit de la consommation) est à confirmer par un professionnel.
+
+## Analyse du code source (jury technique, hors notation design)
+
+Ce volet est un **gate bloquant** : une anomalie critique empêche la publication, quelle que soit la note design.
+
+### Rôle ajouté au jury
+- **Relecteur code** : développeur back-end ou sécurité, distinct du juré front-end.
+
+### Contrôles automatisés (outils libres)
+
+| Contrôle | Outil libre | Seuil bloquant |
+|---|---|---|
+| Secrets dans le dépôt ou l'historique | gitleaks | Tout secret détecté |
+| Dépendances vulnérables | npm audit ou osv-scanner | Vulnérabilité critique ou haute non corrigée |
+| Failles de code (injection, XSS, CORS) | semgrep (règles open source) | Finding haut ou critique non justifié |
+| Qualité et erreurs évidentes | eslint (ou équivalent) | Erreur bloquante, pas un avertissement de style |
+| Scripts shell | shellcheck | Erreur de sécurité |
+
+### Revue manuelle (relecteur code)
+
+- **Entrées** : toute donnée venue d'un tiers (CV, champs de formulaire) est validée et bornée en taille.
+- **Injection de prompt** : le texte utilisateur est traité comme donnée, jamais comme instruction ; la sortie du modèle est validée par schéma avant affichage.
+- **Erreurs** : aucun détail technique renvoyé à l'utilisateur ; les erreurs sont journalisées sans contenu de CV.
+- **Journaux** : aucune donnée personnelle dans les logs.
+- **Secrets** : clés lues depuis l'environnement, jamais codées en dur ; fichiers de configuration en lecture restreinte.
+- **Dépendances** : chaque bibliothèque externe est nécessaire, versionnée, et provient d'une source reconnue.
+- **Tests** : les cas nominaux, les entrées vides, les entrées trop longues et les sorties malformées sont couverts.
+- **Licence** : chaque dépendance a une licence compatible avec l'usage commercial prévu.
+
+### Critères de décision technique
+
+- **Passe** : aucun secret, aucune vulnérabilité critique ou haute non corrigée, revue manuelle sans point bloquant.
+- **Bloque** : au moins un point bloquant. La publication est suspendue jusqu'à correction et nouvelle revue.
+
+### Traçabilité
+
+- Les résultats des outils sont joints à la PR, avec la version du dépôt analysé.
+- Une revue de code ne vaut que pour le commit analysé : toute modification ultérieure demande une nouvelle revue.
