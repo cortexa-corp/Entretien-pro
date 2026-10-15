@@ -696,6 +696,44 @@ dropZone.addEventListener('drop', e => {
   }
 });
 
+// Adresse de l'API d'analyse. Vide = mode démo. À renseigner une fois le domaine HTTPS en place.
+const API_URL = '';
+
+async function callApi(cvText, poste, secteur) {
+  const resp = await fetch(API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ cv: cvText, poste, secteur })
+  });
+  const data = await resp.json().catch(() => ({}));
+  if (!resp.ok) throw new Error(data.error || 'api_error');
+  // Traduction du format du serveur vers le format d'affichage
+  return {
+    scores: data.scores,
+    verdict_global: data.verdict_global,
+    points_forts: data.points_forts || [],
+    points_vigilance: data.points_faibles || [],
+    recommandations: [],
+    decision: '',
+    questions_entretien: data.questions || []
+  };
+}
+
+function messageErreur(e) {
+  const messages = {
+    empty_cv: 'Le CV est vide. Collez le texte ou importez un fichier.',
+    too_large: 'Le texte du CV est trop long pour être analysé.',
+    rate_limited: 'Trop d\'analyses lancées depuis cette connexion. Réessayez plus tard.'
+  };
+  return messages[e && e.message] || 'L\'analyse est indisponible pour le moment. Aucun résultat n\'a été généré.';
+}
+
+function showError(msg) {
+  const zone = document.getElementById('result-zone');
+  zone.innerHTML = `<div role="alert" style="padding:14px;border-radius:8px;background:var(--red-bg);color:var(--fg);border:1px solid var(--red);font-size:13px;">${msg}</div>`;
+  zone.style.display = 'flex';
+}
+
 function scoreColor(s) {
   if (s >= 7.5) return 'var(--green)';
   if (s >= 5) return 'var(--gold)';
@@ -743,8 +781,7 @@ async function runAnalysis() {
     if (si < steps.length - 1) { si++; stepEl.textContent = steps[si]; }
   }, 1200);
 
-  // Mode démo — résultat simulé
-  const result = {
+  const demoResult = {
     scores: { global: 7.2, presentation: 8.0, adequation: 6.5, experience: 7.0 },
     verdict_global: "Profil solide avec une bonne adéquation au poste. Quelques points à clarifier en entretien.",
     points_forts: [
@@ -770,6 +807,16 @@ async function runAnalysis() {
     ]
   };
 
+  let result;
+  try {
+    result = API_URL ? await callApi(cvText, poste, secteur) : demoResult;
+  } catch (e) {
+    clearInterval(stepTimer);
+    loading.style.display = 'none';
+    btn.disabled = false;
+    showError(messageErreur(e));
+    return;
+  }
   clearInterval(stepTimer);
   loading.style.display = 'none';
   renderResult(result, poste, persona, currentMode);
@@ -880,7 +927,7 @@ function renderResult(r, poste, persona, mode = 'audit') {
     lettre: [letterNotice]
   };
   const sections = sectionsByMode[mode] || sectionsByMode.audit;
-  zone.innerHTML = demoBanner + toolbarHtml + sections.join('');
+  zone.innerHTML = (API_URL ? '' : demoBanner) + toolbarHtml + sections.join('');
 }
 
 function toggleQA(el) {
