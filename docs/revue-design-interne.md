@@ -111,3 +111,59 @@ Ce volet est un **gate bloquant** : une anomalie critique empêche la publicatio
 
 - Les résultats des outils sont joints à la PR, avec la version du dépôt analysé.
 - Une revue de code ne vaut que pour le commit analysé : toute modification ultérieure demande une nouvelle revue.
+
+## Volet réseau, serveur et flux (jury d'infrastructure, hors notation design)
+
+Gate bloquant pour toute mise en production.
+
+### Rôle ajouté : Directeur administration réseau (agent IA)
+
+- Ports exposés sur le VPS : seuls 80 et 443 sont accessibles publiquement, SSH limité par clé et par liste d'adresses.
+- Pare-feu : règles par défaut « tout refuser », exceptions documentées.
+- Services : aucun service inutile en écoute, la configuration reste sauvegardée.
+- Ressources : CPU, mémoire et swap sous des seuils définis (l'utilisation actuelle du swap doit être résolue avant publication).
+- Processus : aucun processus orphelin ou zombie persistant.
+- Mises à jour de sécurité automatiques, fail2ban sur SSH.
+
+### Agence de cybersécurité (agents IA, rôles)
+
+Les rôles ci-dessous sont des agents IA qui produisent une revue et des recommandations. Ils ne remplacent ni un audit qualifié, ni la décision humaine.
+
+- **RSSI** : politique de sécurité, gestion des risques, priorisation.
+- **DPO** : conformité RGPD, données traitées, durée de conservation, sous-traitants (dont le fournisseur d'IA).
+- **Architecte sécurité** : segmentation, flux, principe de moindre privilège, Zero Trust.
+- **Pentester** : tests sur le périmètre autorisé uniquement. Scans passifs par défaut, tests actifs seulement après validation humaine écrite.
+- **Hacker éthique** : revue offensive sur le même périmètre. Aucune exploitation destructive, aucune donnée réelle extraite.
+- **Analyste SOC** : journaux, détection d'anomalies, alertes, temps de réaction.
+- **Directeur sécurité** : décision finale, à arbitrer par un humain.
+
+### Périmètre autorisé (écrit)
+
+- Le VPS de production et ses services.
+- L'API d'analyse et son domaine.
+- Le site publié sur GitHub Pages.
+- Aucun tiers, aucun service qui ne nous appartient pas.
+
+### Flux à documenter et vérifier
+
+Chaque flux doit être minimal, chiffré et documenté :
+1. Navigateur → GitHub Pages (HTTPS).
+2. Navigateur → API d'analyse (HTTPS, CORS limité à l'origine autorisée).
+3. API → fournisseur d'IA (HTTPS, clé côté serveur uniquement).
+4. Serveur → journaux (sans contenu de CV).
+
+### Optimisation
+
+- Latence de l'API mesurée, objectif défini avec l'équipe.
+- Consommation mémoire et CPU mesurée sous charge réelle.
+- Limitation de débit (rate limit) validée par test.
+
+### Règles d'exécution
+
+- Les agents ne modifient jamais la production : ils produisent des recommandations.
+- Chaque action est journalisée.
+- Tout test actif est validé par un humain avant exécution.
+
+### Limite à rappeler
+
+Une revue par agents IA est un outil interne d'amélioration. Elle ne vaut ni audit externe qualifié, ni attestation de sécurité. Un audit par un prestataire qualifié reste requis avant la mise en ligne publique.
