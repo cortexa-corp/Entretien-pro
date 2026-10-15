@@ -460,7 +460,16 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,button:focus-vis
   .left { height: auto; overflow: visible; border-right: none; border-bottom: 1px solid var(--border); }
   .right { min-height: 60vh; }
   .score-grid { grid-template-columns: 1fr 1fr; }
+  input[type=text], select, textarea { font-size: 16px; }
+  .mode-tab { min-height: 44px; }
+  .btn-run { min-height: 48px; }
 }
+/* Mouvement réduit (préférence système) */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}
+/* Accordéons accessibles au clavier (boutons) */
+.qa-q { width: 100%; border: none; text-align: left; font-family: inherit; }
 </style>
 
 <div class="app">
@@ -578,12 +587,12 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,button:focus-vis
         <div class="empty-title">Agent DRH prêt</div>
         <div class="empty-sub">Collez un CV, choisissez le poste et le mode d'analyse, puis lancez.</div>
       </div>
-      <div class="loading" id="loading">
+      <div class="loading" id="loading" role="status" aria-live="polite">
         <div class="spinner"></div>
         <div class="loading-label" id="loading-label">Analyse en cours…</div>
         <div class="loading-step" id="loading-step">Lecture du CV</div>
       </div>
-      <div id="result-zone" style="display:none; display:flex; flex-direction:column; gap:16px;"></div>
+      <div id="result-zone" style="display:none; flex-direction:column; gap:16px;"></div>
     </main>
   </div>
 </div>
@@ -767,7 +776,7 @@ function renderResult(r, poste, persona) {
         <div class="score-card">
           <div class="score-label">${label}</div>
           <div class="score-value" style="color:${scoreColor(val)}">${val}<span style="font-size:14px;color:var(--fg-3)">/${max}</span></div>
-          <div style="font-size:10px;color:var(--fg-3);margin-bottom:5px;">${scoreGrade(val)}</div>
+          <div style="font-size:12px;color:var(--fg-3);margin-bottom:5px;">${scoreGrade(val)}</div>
           <div class="score-bar-track"><div class="score-bar-fill" style="width:${val/max*100}%;background:${scoreColor(val)}"></div></div>
         </div>
       `).join('')}
@@ -815,10 +824,10 @@ function renderResult(r, poste, persona) {
         <div class="qa-list">
           ${r.questions_entretien.map((q, i) => `
             <div class="qa-item">
-              <div class="qa-q" onclick="toggleQA(this)">
+              <button type="button" class="qa-q" aria-expanded="false" onclick="toggleQA(this)">
                 <span>${i+1}. ${q.question}</span>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-              </div>
+              </button>
               <div class="qa-a">
                 <strong style="color:var(--fg-3);">OBJECTIF :</strong><br>${q.objectif}<br><br>
                 <strong style="color:var(--accent-2);">RÉPONSE ATTENDUE :</strong><br>${q.bonne_reponse}
@@ -831,17 +840,24 @@ function renderResult(r, poste, persona) {
 
   const toolbarHtml = `
     <div class="no-print" style="display:flex;justify-content:flex-end;">
-      <button type="button" onclick="window.print()" style="font:inherit;font-size:13px;padding:8px 14px;border-radius:8px;border:1px solid var(--border,#d6d3c8);background:#fff;cursor:pointer;">Exporter en PDF</button>
+      <button type="button" onclick="window.print()" style="font:inherit;font-size:13px;padding:8px 14px;border-radius:8px;border:1px solid var(--border-2);background:var(--bg-card);color:var(--fg);cursor:pointer;">Exporter en PDF</button>
     </div>`;
 
-  zone.innerHTML = toolbarHtml + scoreHtml + verdictHtml + pointsHtml + qHtml;
+  // Bandeau honnête : le résultat est simulé tant que l'API n'est pas branchée
+  const demoBanner = `
+    <div role="note" style="font-size:12.5px;line-height:1.5;padding:10px 14px;border-radius:8px;background:var(--gold-bg);color:var(--fg);border:1px solid var(--gold);">
+      <strong>Mode démo :</strong> ce résultat est un exemple fictif, il ne reflète pas votre CV.
+    </div>`;
+
+  zone.innerHTML = demoBanner + toolbarHtml + scoreHtml + verdictHtml + pointsHtml + qHtml;
 }
 
 function toggleQA(el) {
-  el.classList.toggle('open');
-  el.nextElementSibling.classList.toggle('show');
+  const open = el.classList.toggle('open');
+  el.setAttribute('aria-expanded', String(open));
+  el.nextElementSibling.classList.toggle('show', open);
 }
 </script>
 
-<footer style="text-align:center;padding:16px;font-size:12px;color:#6b6a63;"><a href="mentions-legales.html">Mentions légales</a> · <a href="mentions-legales.html#confidentialite">Confidentialité</a></footer>
+<footer style="text-align:center;padding:16px;font-size:12px;color:var(--fg-3);"><a href="mentions-legales.html">Mentions légales</a> · <a href="mentions-legales.html#confidentialite">Confidentialité</a></footer>
 </body></html>
