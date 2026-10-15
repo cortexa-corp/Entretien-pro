@@ -1,0 +1,787 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>EntretienPro — Agent DRH</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;600;700&display=swap">
+<style>
+/* ── Design system ── */
+:root {
+  --bg:       #0F0F13;
+  --bg-2:     #16161E;
+  --bg-card:  #1C1C28;
+  --border:   rgba(255,255,255,.07);
+  --border-2: rgba(255,255,255,.12);
+  --fg:       #E8E8F0;
+  --fg-2:     #9494A8;
+  --fg-3:     #5A5A72;
+  --accent:   #6C63FF;
+  --accent-2: #8B85FF;
+  --accent-bg:rgba(108,99,255,.12);
+  --accent-bd:rgba(108,99,255,.3);
+  --green:    #22C55E;
+  --green-bg: rgba(34,197,94,.1);
+  --orange:   #F97316;
+  --orange-bg:rgba(249,115,22,.1);
+  --red:      #EF4444;
+  --red-bg:   rgba(239,68,68,.1);
+  --gold:     #F59E0B;
+  --gold-bg:  rgba(245,158,11,.1);
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg:       #F4F4F8;
+    --bg-2:     #FFFFFF;
+    --bg-card:  #FFFFFF;
+    --border:   rgba(0,0,0,.07);
+    --border-2: rgba(0,0,0,.12);
+    --fg:       #0F0F1A;
+    --fg-2:     #5A5A72;
+    --fg-3:     #9494A8;
+    --accent:   #5B52F0;
+    --accent-2: #4A42E0;
+    --accent-bg:rgba(91,82,240,.08);
+    --accent-bd:rgba(91,82,240,.25);
+    color-scheme: light;
+  }
+}
+:root[data-theme="light"] {
+  --bg:#F4F4F8; --bg-2:#FFFFFF; --bg-card:#FFFFFF;
+  --border:rgba(0,0,0,.07); --border-2:rgba(0,0,0,.12);
+  --fg:#0F0F1A; --fg-2:#5A5A72; --fg-3:#9494A8;
+  --accent:#5B52F0; --accent-2:#4A42E0;
+  --accent-bg:rgba(91,82,240,.08); --accent-bd:rgba(91,82,240,.25);
+  color-scheme: light;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  min-height: 100%;
+  padding-inline: 0;
+  padding-block: 0;
+}
+
+/* ── LAYOUT ── */
+.app {
+  display: grid;
+  grid-template-rows: 56px 1fr;
+  height: 100%;
+  min-height: 100vh;
+}
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  background: var(--bg-2);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.logo {
+  font-family: 'Sora', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--fg);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.logo-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+}
+.logo span { color: var(--accent-2); }
+.topbar-right { display: flex; align-items: center; gap: 12px; }
+.badge-drh {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 100px;
+  background: var(--accent-bg);
+  color: var(--accent-2);
+  border: 1px solid var(--accent-bd);
+  letter-spacing: .04em;
+}
+
+/* ── MAIN PANEL ── */
+.panel {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  height: calc(100vh - 56px);
+  overflow: hidden;
+}
+
+/* ── LEFT: INPUT ── */
+.left {
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: var(--bg-2);
+}
+.section-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+  margin-bottom: 8px;
+}
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px;
+}
+.card-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--fg);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.card-title svg { width: 15px; height: 15px; opacity: .6; flex-shrink: 0; }
+
+label {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--fg-2);
+  margin-bottom: 5px;
+}
+input[type=text], select, textarea {
+  width: 100%;
+  padding: 9px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border-2);
+  border-radius: 7px;
+  color: var(--fg);
+  font-family: inherit;
+  font-size: 13px;
+  outline: none;
+  transition: border-color .2s;
+  resize: vertical;
+}
+input[type=text]:focus, select:focus, textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-bg);
+}
+select option { background: var(--bg-card); }
+
+.form-row { margin-bottom: 10px; }
+
+.cv-upload-zone {
+  border: 1.5px dashed var(--border-2);
+  border-radius: 8px;
+  padding: 18px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color .2s, background .2s;
+  background: var(--bg);
+  position: relative;
+}
+.cv-upload-zone:hover, .cv-upload-zone.drag-over {
+  border-color: var(--accent);
+  background: var(--accent-bg);
+}
+.cv-upload-zone input[type=file] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+}
+.upload-icon {
+  width: 28px; height: 28px;
+  margin: 0 auto 8px;
+  opacity: .4;
+}
+.upload-label { font-size: 12px; color: var(--fg-2); }
+.upload-label strong { color: var(--accent-2); }
+.upload-preview {
+  display: none;
+  font-size: 12px;
+  color: var(--green);
+  font-weight: 600;
+  align-items: center;
+  gap: 6px;
+  justify-content: center;
+}
+
+.mode-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 4px;
+  background: var(--bg);
+  border-radius: 8px;
+  padding: 3px;
+  border: 1px solid var(--border);
+}
+.mode-tab {
+  padding: 7px 4px;
+  border-radius: 5px;
+  border: none;
+  background: transparent;
+  color: var(--fg-3);
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .15s, color .15s;
+  text-align: center;
+}
+.mode-tab.active {
+  background: var(--accent);
+  color: #fff;
+}
+.mode-tab:hover:not(.active) { color: var(--fg-2); background: var(--border); }
+
+.btn-run {
+  width: 100%;
+  padding: 12px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 9px;
+  font-family: 'Sora', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background .15s, transform .1s;
+  letter-spacing: .02em;
+}
+.btn-run:hover { background: var(--accent-2); }
+.btn-run:active { transform: scale(.98); }
+.btn-run:disabled { opacity: .5; cursor: not-allowed; }
+.btn-run svg { width: 16px; height: 16px; }
+
+/* ── RIGHT: OUTPUT ── */
+.right {
+  overflow-y: auto;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Empty state */
+.empty-state {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  text-align: center;
+  color: var(--fg-3);
+}
+.empty-icon {
+  width: 56px; height: 56px;
+  border-radius: 16px;
+  background: var(--accent-bg);
+  border: 1px solid var(--accent-bd);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+}
+.empty-icon svg { width: 24px; height: 24px; stroke: var(--accent-2); }
+.empty-title { font-size: 15px; font-weight: 600; color: var(--fg-2); }
+.empty-sub { font-size: 13px; max-width: 280px; }
+
+/* Score bar */
+.score-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.score-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+.score-label { font-size: 11px; color: var(--fg-3); margin-bottom: 6px; font-weight: 500; }
+.score-value {
+  font-family: 'Sora', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.score-bar-track {
+  height: 4px;
+  background: var(--border-2);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.score-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 1s ease;
+}
+
+/* Report sections */
+.report-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.report-header {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.report-header svg { width: 15px; height: 15px; opacity: .6; }
+.report-body { padding: 14px 16px; }
+
+/* Verdict chips */
+.verdict-list { display: flex; flex-direction: column; gap: 8px; }
+.verdict-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+.verdict-item.ok { background: var(--green-bg); color: var(--fg); }
+.verdict-item.warn { background: var(--orange-bg); color: var(--fg); }
+.verdict-item.bad { background: var(--red-bg); color: var(--fg); }
+.verdict-item.tip { background: var(--accent-bg); color: var(--fg); }
+.verdict-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+.ok .verdict-dot { background: var(--green); }
+.warn .verdict-dot { background: var(--orange); }
+.bad .verdict-dot { background: var(--red); }
+.tip .verdict-dot { background: var(--accent-2); }
+
+/* Interview QA */
+.qa-list { display: flex; flex-direction: column; gap: 12px; }
+.qa-item { border-radius: 8px; overflow: hidden; }
+.qa-q {
+  padding: 10px 14px;
+  background: var(--accent-bg);
+  border-left: 3px solid var(--accent);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--fg);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+.qa-q svg { width: 14px; height: 14px; flex-shrink: 0; transition: transform .2s; }
+.qa-q.open svg { transform: rotate(180deg); }
+.qa-a {
+  padding: 10px 14px;
+  background: var(--bg);
+  font-size: 12.5px;
+  color: var(--fg-2);
+  line-height: 1.6;
+  display: none;
+  border: 1px solid var(--border);
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+}
+.qa-a.show { display: block; }
+
+/* Loading */
+.loading {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 60px 20px;
+  text-align: center;
+}
+.spinner {
+  width: 40px; height: 40px;
+  border: 3px solid var(--border-2);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-label {
+  font-size: 13px;
+  color: var(--fg-2);
+  font-weight: 500;
+}
+.loading-step {
+  font-size: 11px;
+  color: var(--fg-3);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100% { opacity:.4; } 50% { opacity:1; } }
+
+/* Responsive */
+@media (max-width: 700px) {
+  .panel { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+  .left { height: auto; overflow: visible; border-right: none; border-bottom: 1px solid var(--border); }
+  .right { min-height: 60vh; }
+  .score-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+
+<div class="app">
+  <!-- TOPBAR -->
+  <nav class="topbar">
+    <div class="logo">
+      <div class="logo-dot"></div>
+      Entretien<span>Pro</span>.ai
+    </div>
+    <div class="topbar-right">
+      <span class="badge-drh">🎯 Agent DRH</span>
+    </div>
+  </nav>
+
+  <!-- PANEL -->
+  <div class="panel">
+    <!-- LEFT: INPUTS -->
+    <aside class="left">
+      <div>
+        <div class="section-title">Mode d'analyse</div>
+        <div class="mode-tabs">
+          <button class="mode-tab active" data-mode="audit" onclick="setMode('audit',this)">Audit CV</button>
+          <button class="mode-tab" data-mode="lettre" onclick="setMode('lettre',this)">Lettre</button>
+          <button class="mode-tab" data-mode="entretien" onclick="setMode('entretien',this)">Entretien</button>
+        </div>
+      </div>
+
+      <!-- CV upload -->
+      <div class="card">
+        <div class="card-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          CV (texte ou upload)
+        </div>
+        <div class="form-row">
+          <label>Coller le contenu du CV</label>
+          <textarea id="cv-text" rows="6" placeholder="Collez ici le texte du CV..."></textarea>
+        </div>
+        <div class="form-row">
+          <label>Ou uploader un fichier</label>
+          <div class="cv-upload-zone" id="drop-zone">
+            <input type="file" id="cv-file" accept=".txt,.pdf,.html" onchange="handleFile(this)">
+            <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <div class="upload-label"><strong>Cliquer</strong> ou glisser un fichier</div>
+            <div style="font-size:11px;color:var(--fg-3);margin-top:4px;">.txt · .html</div>
+            <div class="upload-preview" id="upload-preview">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              <span id="upload-name"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Paramètres poste -->
+      <div class="card">
+        <div class="card-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+          Poste visé
+        </div>
+        <div class="form-row">
+          <label>Intitulé du poste</label>
+          <input type="text" id="poste" placeholder="ex : Développeur, Manager, Consultant...">
+        </div>
+        <div class="form-row">
+          <label>Secteur</label>
+          <select id="secteur">
+            <option value="tech">Technologie</option>
+            <option value="finance">Finance</option>
+            <option value="vente">Vente</option>
+            <option value="rh">RH</option>
+            <option value="autre">Autre</option>
+          </select>
+        </div>
+        <div class="form-row" id="lettre-zone" style="display:none;">
+          <label>Lettre de motivation</label>
+          <textarea id="lettre-text" rows="5" placeholder="Collez la lettre de motivation..."></textarea>
+        </div>
+      </div>
+
+      <!-- Persona DRH -->
+      <div class="card">
+        <div class="card-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Profil DRH simulé
+        </div>
+        <div class="form-row">
+          <select id="persona">
+            <option value="drh-startup">DRH startup tech</option>
+            <option value="drh-corporate">DRH entreprise corporate</option>
+            <option value="drh-pme">DRH PME</option>
+            <option value="drh-generic">DRH généraliste</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label>Niveau d'exigence</label>
+          <select id="exigence">
+            <option value="standard">Standard</option>
+            <option value="strict">Strict (profil senior)</option>
+            <option value="bienveillant">Bienveillant (junior)</option>
+          </select>
+        </div>
+      </div>
+
+      <button class="btn-run" id="btn-run" onclick="runAnalysis()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        Lancer l'analyse DRH
+      </button>
+    </aside>
+
+    <!-- RIGHT: OUTPUT -->
+    <main class="right" id="output">
+      <div class="empty-state" id="empty-state">
+        <div class="empty-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+        </div>
+        <div class="empty-title">Agent DRH prêt</div>
+        <div class="empty-sub">Collez un CV, choisissez le poste et le mode d'analyse, puis lancez.</div>
+      </div>
+      <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <div class="loading-label" id="loading-label">Analyse en cours…</div>
+        <div class="loading-step" id="loading-step">Lecture du CV</div>
+      </div>
+      <div id="result-zone" style="display:none; display:flex; flex-direction:column; gap:16px;"></div>
+    </main>
+  </div>
+</div>
+
+<script>
+let currentMode = 'audit';
+
+function setMode(mode, btn) {
+  currentMode = mode;
+  document.querySelectorAll('.mode-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('lettre-zone').style.display = mode === 'lettre' ? 'block' : 'none';
+}
+
+function handleFile(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const preview = document.getElementById('upload-preview');
+  const name = document.getElementById('upload-name');
+  name.textContent = file.name;
+  preview.style.display = 'flex';
+  document.querySelector('.upload-label').style.display = 'none';
+
+  const reader = new FileReader();
+  reader.onload = e => {
+    document.getElementById('cv-text').value = e.target.result;
+  };
+  reader.readAsText(file);
+}
+
+// Drag & drop
+const dropZone = document.getElementById('drop-zone');
+dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+dropZone.addEventListener('drop', e => {
+  e.preventDefault();
+  dropZone.classList.remove('drag-over');
+  const file = e.dataTransfer.files[0];
+  if (file) {
+    const fi = document.getElementById('cv-file');
+    const dt = new DataTransfer();
+    dt.items.add(file);
+    fi.files = dt.files;
+    handleFile(fi);
+  }
+});
+
+function scoreColor(s) {
+  if (s >= 7.5) return 'var(--green)';
+  if (s >= 5) return 'var(--gold)';
+  return 'var(--red)';
+}
+
+function scoreGrade(s) {
+  if (s >= 8.5) return 'Excellent';
+  if (s >= 7) return 'Très bien';
+  if (s >= 5.5) return 'Correct';
+  if (s >= 4) return 'Insuffisant';
+  return 'Critique';
+}
+
+async function runAnalysis() {
+  const cvText = document.getElementById('cv-text').value.trim();
+  const poste = document.getElementById('poste').value.trim() || 'poste non spécifié';
+  const secteur = document.getElementById('secteur').value;
+  const persona = document.getElementById('persona').value;
+  const exigence = document.getElementById('exigence').value;
+  const lettre = document.getElementById('lettre-text').value.trim();
+
+  if (!cvText) {
+    alert('Veuillez coller ou uploader un CV avant de lancer l\'analyse.');
+    return;
+  }
+
+  const btn = document.getElementById('btn-run');
+  btn.disabled = true;
+
+  document.getElementById('empty-state').style.display = 'none';
+  document.getElementById('result-zone').style.display = 'none';
+  const loading = document.getElementById('loading');
+  loading.style.display = 'flex';
+
+  const steps = ['Lecture du CV…', 'Analyse des compétences…', 'Comparaison avec le poste…', 'Génération du rapport DRH…', 'Simulation des questions…'];
+  let si = 0;
+  const stepEl = document.getElementById('loading-step');
+  const stepTimer = setInterval(() => {
+    if (si < steps.length - 1) { si++; stepEl.textContent = steps[si]; }
+  }, 1200);
+
+  // Mode démo — résultat simulé
+  const result = {
+    scores: { global: 7.2, presentation: 8.0, adequation: 6.5, experience: 7.0 },
+    verdict_global: "Profil solide avec une bonne adéquation au poste. Quelques points à clarifier en entretien.",
+    points_forts: [
+      "Expérience avérée dans le secteur",
+      "Compétences techniques alignées avec le poste",
+      "CV bien présenté et structuré"
+    ],
+    points_vigilance: [
+      "À vérifier en entretien : motivation pour ce changement",
+      "Besoin de clarifier certains aspects du parcours"
+    ],
+    recommandations: [
+      "Préparer les questions sur la transition professionnelle",
+      "Mettre en avant les réalisations mesurables"
+    ],
+    decision: "À convoquer",
+    questions_entretien: [
+      { question: "Parlez-moi de votre parcours professionnel.", objectif: "Comprendre la logique du CV", bonne_reponse: "Narration cohérente, logique ascendante, adaptation au poste visé." },
+      { question: "Pourquoi cette candidature pour notre entreprise ?", objectif: "Tester la motivation spécifique", bonne_reponse: "Connaissance de l'entreprise, alignement des valeurs, projet professionnel clair." },
+      { question: "Décrivez un défi que vous avez relevé.", objectif: "Évaluer la capacité de résolution", bonne_reponse: "Exemple STAR concret : situation, tâche, action, résultat." },
+      { question: "Quels sont vos points forts et faibles ?", objectif: "Authenticité et self-awareness", bonne_reponse: "Réponse honnête, points faibles transformés en apprentissages." },
+      { question: "Des questions pour nous ?", objectif: "Tester l'intérêt réel pour le poste", bonne_reponse: "Questions pertinentes sur l'équipe, les projets, la culture." }
+    ]
+  };
+
+  clearInterval(stepTimer);
+  loading.style.display = 'none';
+  renderResult(result, poste, persona);
+  btn.disabled = false;
+}
+
+function renderResult(r, poste, persona) {
+  const zone = document.getElementById('result-zone');
+  zone.innerHTML = '';
+  zone.style.display = 'flex';
+  zone.style.flexDirection = 'column';
+  zone.style.gap = '16px';
+
+  // Score cards
+  const scoreHtml = `
+    <div class="score-grid">
+      ${[
+        ['Score global', r.scores.global, 10],
+        ['Présentation', r.scores.presentation, 10],
+        ['Adéquation poste', r.scores.adequation, 10],
+        ['Expérience', r.scores.experience, 10]
+      ].map(([label, val, max]) => `
+        <div class="score-card">
+          <div class="score-label">${label}</div>
+          <div class="score-value" style="color:${scoreColor(val)}">${val}<span style="font-size:14px;color:var(--fg-3)">/${max}</span></div>
+          <div style="font-size:10px;color:var(--fg-3);margin-bottom:5px;">${scoreGrade(val)}</div>
+          <div class="score-bar-track"><div class="score-bar-fill" style="width:${val/max*100}%;background:${scoreColor(val)}"></div></div>
+        </div>
+      `).join('')}
+    </div>`;
+
+  // Verdict
+  const decisionColor = r.decision === 'À convoquer' ? 'var(--green)' : r.decision === 'À rejeter' ? 'var(--red)' : 'var(--gold)';
+  const verdictHtml = `
+    <div class="report-section">
+      <div class="report-header" style="justify-content:space-between;">
+        <span style="display:flex;align-items:center;gap:8px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Verdict DRH
+        </span>
+        <span style="font-size:12px;font-weight:700;color:${decisionColor};background:${decisionColor}22;padding:3px 10px;border-radius:100px;">${r.decision}</span>
+      </div>
+      <div class="report-body">
+        <p style="font-size:13px;color:var(--fg-2);line-height:1.7;">${r.verdict_global}</p>
+      </div>
+    </div>`;
+
+  // Points
+  const pointsHtml = `
+    <div class="report-section">
+      <div class="report-header">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/></svg>
+        Points clés
+      </div>
+      <div class="report-body">
+        <div class="verdict-list">
+          ${r.points_forts.map(p => `<div class="verdict-item ok"><div class="verdict-dot"></div><span>${p}</span></div>`).join('')}
+          ${r.points_vigilance.map(p => `<div class="verdict-item warn"><div class="verdict-dot"></div><span>${p}</span></div>`).join('')}
+        </div>
+      </div>
+    </div>`;
+
+  // Questions
+  const qHtml = `
+    <div class="report-section">
+      <div class="report-header">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        Simulation entretien
+      </div>
+      <div class="report-body">
+        <div class="qa-list">
+          ${r.questions_entretien.map((q, i) => `
+            <div class="qa-item">
+              <div class="qa-q" onclick="toggleQA(this)">
+                <span>${i+1}. ${q.question}</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
+              <div class="qa-a">
+                <strong style="color:var(--fg-3);">OBJECTIF :</strong><br>${q.objectif}<br><br>
+                <strong style="color:var(--accent-2);">RÉPONSE ATTENDUE :</strong><br>${q.bonne_reponse}
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </div>`;
+
+  zone.innerHTML = scoreHtml + verdictHtml + pointsHtml + qHtml;
+}
+
+function toggleQA(el) {
+  el.classList.toggle('open');
+  el.nextElementSibling.classList.toggle('show');
+}
+</script>
+
+</body></html>
