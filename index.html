@@ -455,7 +455,8 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,button:focus-vis
 
 /* Responsive */
 @media (max-width: 700px) {
-  .panel { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+  .app { height: auto; grid-template-rows: auto auto; }
+  .panel { grid-template-columns: 1fr; grid-template-rows: auto auto; height: auto; overflow: visible; }
   .left { height: auto; overflow: visible; border-right: none; border-bottom: 1px solid var(--border); }
   .right { min-height: 60vh; }
   .score-grid { grid-template-columns: 1fr 1fr; }
