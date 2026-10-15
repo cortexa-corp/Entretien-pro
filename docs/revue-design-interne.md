@@ -299,3 +299,39 @@ Ajoutés pour couvrir les angles absents des fiches précédentes.
 - Le représentant candidat et le conseiller emploi testent sur des profils fictifs, sans CV réel.
 - L'expert paiements ne voit jamais de données de carte : il vérifie seulement le parcours et les prestataires.
 - Le SRE vérifie les sauvegardes par restauration réelle sur une copie, jamais sur la production.
+
+## Audit spécifique aux agents IA autonomes (rôles fictifs)
+
+### Membres ajoutés
+
+| Membre | Mission | Vérifie précisément | Veto | Limite |
+|---|---|---|---|---|
+| **Red team IA** | Attaquer l'agent par injection de prompt et abus d'outils, dans le périmètre autorisé | Injection indirecte via CV, page ou mail ; tentative de faire appeler un outil hors liste blanche ; fuite de contexte | Oui, sur toute injection réussie | Attaques sur notre seul périmètre, sans donnée réelle, sans action destructive |
+| **Ingénieur évaluations (evals)** | Construire et maintenir la suite de tests de comportement | Couverture des cas critiques (refus, validation, confidentialité), seuil d'échec défini à l'avance, rejeu à chaque changement de modèle ou de prompt | Oui, si le seuil d'échec est dépassé | Ne décide pas seul du seuil : il est fixé par l'équipe |
+| **Ingénieur identité non humaine** | Gérer les identités, clés et droits de chaque agent | Une identité par agent, clés révocables séparément, droits minimaux, rotation documentée | Oui, si un agent partage une clé avec un autre | Ne crée pas de droit sans validation |
+| **Auditeur de chaîne d'approvisionnement** | Contrôler les plugins, compétences et serveurs d'outils externes | Source, version figée, permissions demandées, licence, absence de code non relu | Oui, sur un composant non vérifié | Ne valide que ce qui est listé dans le dépôt |
+| **Ingénieur observabilité agents** | Tracer chaque décision d'agent sans contenu personnel | Trace entrée, outil appelé, sortie, identifiant d'agent ; alertes sur comportement anormal | Oui, si une action n'est pas traçable | Ne conserve aucun contenu de CV |
+
+### Contrôles à vérifier
+
+- **Injection de prompt indirecte** : batterie d'attaques connues rejouée sur des CV fictifs, page web et mail. Un seul succès bloque la publication.
+- **Abus d'outils** : chaque outil a une liste blanche, des paramètres bornés et une validation humaine pour toute action irréversible.
+- **Mémoire** : si l'agent conserve une information entre sessions, un test vérifie qu'une donnée malveillante stockée ne réapparaît pas.
+- **Chaîne d'approvisionnement** : chaque plugin ou serveur d'outils est audité avant installation (source, version, permissions).
+- **Arrêt d'urgence** : un interrupteur est testé. Le test est consigné.
+- **Plan de réponse aux incidents** : qui coupe l'agent, qui prévient, qui décide de la reprise.
+
+### Référentiels à citer (à vérifier avant publication)
+
+- OWASP Top 10 pour les applications LLM.
+- NIST AI RMF.
+- ISO/IEC 42001 (système de management de l'IA).
+- AI Act européen, pour le classement du risque.
+
+Je n'ai pas vérifié les versions actuelles de ces référentiels depuis ici : il faut les confirmer sur les sites officiels avant de les citer dans un dossier.
+
+### Règles
+
+- Un agent qui échoue à la red team ou aux evals ne passe pas en production, quel que soit le reste.
+- Les tests d'attaque restent sur notre périmètre et sans donnée réelle.
+- Les rôles IA produisent des recommandations. La décision finale reste humaine.
