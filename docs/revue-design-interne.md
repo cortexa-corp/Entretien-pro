@@ -247,3 +247,22 @@ Ajoutés pour couvrir les angles absents des fiches précédentes.
 - Ils relisent le code en même temps que le relecteur code, sans le remplacer.
 - Toute dépendance JavaScript ajoutée est listée avec sa version, sa licence et son intégrité.
 - Un veto sur un point XSS ou une fuite de donnée est motivé par une ligne de code précise.
+
+## Experts en pilotage d'agents IA (rôles fictifs)
+
+| Membre | Mission | Vérifie précisément | Veto | Limite |
+|---|---|---|---|---|
+| **Architecte d'agents** | Définir qui fait quoi et dans quel ordre | Séparation des rôles, orchestration explicite, aucun agent qui agit hors de son périmètre, pas de chaîne d'actions non prévue | Oui, si un agent peut agir sur un système qu'il ne doit pas toucher | Ne configure pas les agents en production |
+| **Responsable des permissions (moindre privilège)** | Limiter ce que chaque agent peut faire | Liste blanche des actions, outils accessibles par agent, aucun accès aux fichiers de clés ni aux dossiers de configuration sensibles, aucune action irréversible sans validation | Oui, sur tout droit excessif | Ne donne aucun droit par défaut |
+| **Responsable des validations humaines** | Garantir qu'un humain valide les actions sensibles | Envois, publications, paiements, suppressions, modifications de service : validation explicite et tracée | Oui, si une action sensible s'exécute sans validation | Ne valide pas à la place de l'humain |
+| **Responsable du coût des modèles** | Contrôler les dépenses liées aux appels d'IA | Plafond mensuel sur chaque clé, alerte de dépassement, coût par analyse mesuré, boucles d'appels évitées | Oui, si un agent peut générer des dépenses sans plafond | Ne fixe pas les prix commerciaux |
+| **Évaluateur de comportement des agents** | Mesurer si les agents font ce qu'on attend | Tests de comportement sur CV fictifs, tentatives d'injection de prompt, refus des demandes hors périmètre | Oui, si un agent suit une instruction venue d'un contenu non fiable | Ne note pas la qualité du conseil : c'est le rôle de l'évaluateur IA |
+| **Responsable de la traçabilité des agents** | Garder la trace de chaque action d'agent | Journal de chaque action, identifiant de l'agent, décision humaine associée, durée de conservation | Oui, si une action n'est pas traçable | Ne conserve pas de contenu de CV dans les journaux |
+
+## Règles de pilotage
+
+- Un agent qui reçoit un texte venu d'un tiers (CV, page web, mail) ne l'exécute jamais comme une instruction.
+- Aucun agent ne reçoit de clé complète : chaque clé est limitée à un usage, avec plafond.
+- Les agents n'ont pas accès au VPS en écriture sans validation humaine écrite.
+- En cas de doute sur une action, l'agent s'arrête et demande une validation.
+- Les règles de permissions sont versionnées dans le dépôt, avec une date et un auteur.
