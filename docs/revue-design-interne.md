@@ -335,3 +335,20 @@ Je n'ai pas vérifié les versions actuelles de ces référentiels depuis ici : 
 - Un agent qui échoue à la red team ou aux evals ne passe pas en production, quel que soit le reste.
 - Les tests d'attaque restent sur notre périmètre et sans donnée réelle.
 - Les rôles IA produisent des recommandations. La décision finale reste humaine.
+
+## Finition visuelle et habillage (rôles fictifs)
+
+| Membre | Mission | Vérifie précisément | Veto | Limite |
+|---|---|---|---|---|
+| **Directeur artistique** | Garantir une direction visuelle cohérente et mémorable | Ton général, cohérence entre les écrans, équilibre entre sobriété et chaleur, absence de style générique « template » | Non | Ne crée pas de nouvelle identité sans validation du fondateur |
+| **Typographe** | Garantir une typographie lisible et soignée | Hiérarchie des titres, interlignage, longueur de ligne (45 à 75 caractères), césures, rendu des accents français, polices chargées sans bloquer le rendu | Oui, si le texte est difficile à lire | Ne choisit pas une police hors de la charte validée |
+| **Expert couleurs et harmonie** | Vérifier l'harmonie et le contraste de la palette | Ratios de contraste (WCAG AA), harmonie des teintes, cohérence clair/sombre, aucune couleur seule pour transmettre une information | Oui, si un contraste passe sous le seuil | Ne modifie pas la palette sans revue du graphiste |
+| **Illustrateur et iconographe** | Garantir des icônes et illustrations cohérentes | Une seule famille d'icônes, même trait, même taille, pictogrammes compréhensibles, illustrations libres de droits ou créées pour nous | Oui, sur une image sans droit d'usage | Ne reprend aucune image sans licence écrite |
+| **Expert micro-interactions** | Soigner les détails qui donnent une impression de qualité | Retours visuels au clic, états de survol et de focus, transitions courtes, cohérence des états de chargement | Non | Reste dans les limites du mouvement réduit et de la sobriété |
+| **Expert finition mobile** | Garantir un rendu propre sur téléphone | Marges, alignements, coupures de texte, espaces sous la barre d'accueil, rendu en mode paysage | Oui, si un écran est cassé sur un téléphone courant | Ne teste que sur des appareils réels ou un jeu défini |
+
+## Règles de finition
+
+- Ces membres notent dans la grille design, au même titre que le président et les jurés UX et front.
+- Le veto du typographe et de l'expert couleurs se base sur des seuils mesurés (contraste, longueur de ligne), pas sur une impression.
+- Une image ou une icône sans licence écrite n'est pas publiée.
