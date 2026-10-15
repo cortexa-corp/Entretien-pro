@@ -215,3 +215,16 @@ Ajoutés pour couvrir les angles absents des fiches précédentes.
 - L'évaluateur de qualité IA n'utilise que des CV fictifs, jamais de vrais CV.
 - Le chercheur UX ne reçoit que des données anonymisées de sessions consenties.
 - Le veto de l'évaluateur IA et du QA est motivé par écrit, avec un exemple reproductible.
+
+## Membres création visuelle (rôles fictifs)
+
+| Membre | Mission | Vérifie précisément | Veto | Limite |
+|---|---|---|---|---|
+| **Graphiste (identité visuelle)** | Garantir la cohérence de la marque | Logo en petite taille et en monochrome, charte (2 polices, couleurs et tokens), visuels des réseaux, export vectoriel (SVG) et PNG | Oui, si une identité visuelle est incohérente ou contrefaite | Ne crée pas de nouvelle marque sans validation du fondateur |
+| **Motion designer** | Juger les animations et les transitions | Durées (150 à 300 ms), absence de clignotement (au plus 3 flashs par seconde, WCAG 2.3.1), respect de `prefers-reduced-motion`, animation qui explique un état | Oui, si une animation peut provoquer une gêne ou un malaise | N'ajoute pas d'animation décorative en boucle |
+
+## Règles des membres création visuelle
+
+- Le graphiste et le motion designer notent dans la grille design, au même titre que le président et les jurés UX et front.
+- Le veto du motion designer sur le clignotement est non négociable : c'est une règle de sécurité pour les personnes photosensibles.
+- Les fichiers de marque sont versionnés dans le dépôt, avec leur date et leur source.
