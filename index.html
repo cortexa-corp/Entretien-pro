@@ -3,52 +3,66 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;600;700&display=swap">
 <style>
 /* ── Design system ── */
+/* Palette : une teinte indigo dominante, des neutres teintés vers cette teinte,
+   trois couleurs sémantiques distinctes (succès, attention, erreur).
+   Contrastes WCAG AA vérifiés sur chaque couple texte/fond. */
 :root {
-  --bg:       #0F0F13;
-  --bg-2:     #16161E;
-  --bg-card:  #1C1C28;
-  --border:   rgba(255,255,255,.07);
-  --border-2: rgba(255,255,255,.12);
-  --fg:       #E8E8F0;
-  --fg-2:     #9494A8;
-  --fg-3:     #5A5A72;
-  --accent:   #6C63FF;
-  --accent-2: #8B85FF;
-  --accent-bg:rgba(108,99,255,.12);
-  --accent-bd:rgba(108,99,255,.3);
-  --green:    #22C55E;
-  --green-bg: rgba(34,197,94,.1);
-  --orange:   #F97316;
-  --orange-bg:rgba(249,115,22,.1);
-  --red:      #EF4444;
-  --red-bg:   rgba(239,68,68,.1);
-  --gold:     #F59E0B;
-  --gold-bg:  rgba(245,158,11,.1);
+  --bg:       #0F0F17;
+  --bg-2:     #161623;
+  --bg-card:  #1C1C2B;
+  --border:   rgba(255,255,255,.08);
+  --border-2: rgba(255,255,255,.14);
+  --fg:       #ECECF5;   /* 16.2:1 sur fond */
+  --fg-2:     #A3A3BD;   /* 7.8:1 */
+  --fg-3:     #8A8AA3;   /* 5.7:1 fond, 5.0:1 carte */
+  --accent:   #5B52E8;   /* fond de bouton, texte blanc 5.5:1 */
+  --accent-2: #8B83FF;   /* texte d'accent sur fond sombre, 6.2:1 */
+  --accent-bg:rgba(139,131,255,.14);
+  --accent-bd:rgba(139,131,255,.35);
+  --green:    #2DD4A0;   /* succès, 10:1 */
+  --green-bg: rgba(45,212,160,.10);
+  --gold:     #FBBF24;   /* attention, 11.4:1 */
+  --orange:   #FBBF24;   /* même teinte que l'attention : une seule couleur d'alerte douce */
+  --gold-bg:  rgba(251,191,36,.10);
+  --orange-bg:rgba(251,191,36,.10);
+  --red:      #F87171;   /* erreur, 6.9:1 */
+  --red-bg:   rgba(248,113,113,.10);
   color-scheme: dark;
 }
 @media (prefers-color-scheme: light) {
   :root:not([data-theme="dark"]) {
-    --bg:       #F4F4F8;
+    --bg:       #F5F5FA;
     --bg-2:     #FFFFFF;
     --bg-card:  #FFFFFF;
-    --border:   rgba(0,0,0,.07);
-    --border-2: rgba(0,0,0,.12);
-    --fg:       #0F0F1A;
-    --fg-2:     #5A5A72;
-    --fg-3:     #9494A8;
-    --accent:   #5B52F0;
-    --accent-2: #4A42E0;
-    --accent-bg:rgba(91,82,240,.08);
-    --accent-bd:rgba(91,82,240,.25);
+    --border:   rgba(15,15,42,.08);
+    --border-2: rgba(15,15,42,.14);
+    --fg:       #15152A;   /* 16.5:1 */
+    --fg-2:     #4B4B66;   /* 7.7:1 */
+    --fg-3:     #6B6B85;   /* 5.2:1 blanc, 4.8:1 fond */
+    --accent:   #4F46E5;   /* bouton, texte blanc 6.3:1 */
+    --accent-2: #4338CA;   /* texte d'accent sur blanc, 7.9:1 */
+    --accent-bg:rgba(79,70,229,.08);
+    --accent-bd:rgba(79,70,229,.25);
+    --green:    #047857;   /* 5.5:1 */
+    --green-bg: rgba(4,120,87,.08);
+    --gold:     #B45309;   /* 5.0:1 */
+    --orange:   #B45309;
+    --gold-bg:  rgba(180,83,9,.08);
+    --orange-bg:rgba(180,83,9,.08);
+    --red:      #B91C1C;   /* 6.5:1 */
+    --red-bg:   rgba(185,28,28,.08);
     color-scheme: light;
   }
 }
 :root[data-theme="light"] {
-  --bg:#F4F4F8; --bg-2:#FFFFFF; --bg-card:#FFFFFF;
-  --border:rgba(0,0,0,.07); --border-2:rgba(0,0,0,.12);
-  --fg:#0F0F1A; --fg-2:#5A5A72; --fg-3:#9494A8;
-  --accent:#5B52F0; --accent-2:#4A42E0;
-  --accent-bg:rgba(91,82,240,.08); --accent-bd:rgba(91,82,240,.25);
+  --bg:#F5F5FA; --bg-2:#FFFFFF; --bg-card:#FFFFFF;
+  --border:rgba(15,15,42,.08); --border-2:rgba(15,15,42,.14);
+  --fg:#15152A; --fg-2:#4B4B66; --fg-3:#6B6B85;
+  --accent:#4F46E5; --accent-2:#4338CA;
+  --accent-bg:rgba(79,70,229,.08); --accent-bd:rgba(79,70,229,.25);
+  --green:#047857; --green-bg:rgba(4,120,87,.08);
+  --gold:#B45309; --orange:#B45309; --gold-bg:rgba(180,83,9,.08); --orange-bg:rgba(180,83,9,.08);
+  --red:#B91C1C; --red-bg:rgba(185,28,28,.08);
   color-scheme: light;
 }
 
