@@ -228,3 +228,22 @@ Ajoutés pour couvrir les angles absents des fiches précédentes.
 - Le graphiste et le motion designer notent dans la grille design, au même titre que le président et les jurés UX et front.
 - Le veto du motion designer sur le clignotement est non négociable : c'est une règle de sécurité pour les personnes photosensibles.
 - Les fichiers de marque sont versionnés dans le dépôt, avec leur date et leur source.
+
+## Experts JavaScript (rôles fictifs)
+
+| Membre | Mission | Vérifie précisément | Veto | Limite |
+|---|---|---|---|---|
+| **Expert JavaScript front-end** | Garantir un code navigateur fiable et maintenable | Gestion des événements, fuites mémoire, rendu sans `innerHTML` non échappé, états d'erreur, `async/await` sans exception non gérée, code mort | Oui, sur une injection XSS ou une fuite de données dans le DOM | Ne réécrit pas le code, il le signale |
+| **Expert Node.js back-end** | Garantir le serveur d'analyse (sans dépendance, HTTP natif) | Validation des entrées, limite de taille du corps de requête, délais d'attente, arrêt propre, journaux sans contenu de CV, gestion des erreurs du fournisseur d'IA | Oui, sur un déni de service possible ou une fuite de donnée | Ne déploie pas en production |
+| **Expert performance et chargement JavaScript** | Réduire le poids et le temps de chargement | Scripts externes chargés à la demande, **intégrité des scripts CDN (attribut `integrity` SRI)**, taille des ressources, bloquage du rendu | Oui, sur un script externe chargé sans contrôle d'intégrité | Ne sacrifie pas la lisibilité du code pour quelques millisecondes |
+
+## Constat à traiter (Expert performance et chargement)
+
+- `index.html` charge pdf.js depuis `cdnjs.cloudflare.com` sans attribut `integrity`. Si le CDN est compromis ou si la version change, le navigateur exécute du code non vérifié.
+- Correction attendue : ajouter `integrity` (hash SRI) et `crossorigin="anonymous"` aux balises `<script>` externes, avec la version figée. Le hash doit être calculé à partir du fichier officiel de la version utilisée, pas recopié d'une source non vérifiée.
+
+## Règles des experts JavaScript
+
+- Ils relisent le code en même temps que le relecteur code, sans le remplacer.
+- Toute dépendance JavaScript ajoutée est listée avec sa version, sa licence et son intégrité.
+- Un veto sur un point XSS ou une fuite de donnée est motivé par une ligne de code précise.
