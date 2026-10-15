@@ -352,3 +352,18 @@ Je n'ai pas vérifié les versions actuelles de ces référentiels depuis ici : 
 - Ces membres notent dans la grille design, au même titre que le président et les jurés UX et front.
 - Le veto du typographe et de l'expert couleurs se base sur des seuils mesurés (contraste, longueur de ligne), pas sur une impression.
 - Une image ou une icône sans licence écrite n'est pas publiée.
+
+## Branding et propriété intellectuelle (rôles fictifs)
+
+| Membre | Mission | Vérifie précisément | Veto | Limite |
+|---|---|---|---|---|
+| **Stratège de marque** | Garantir une promesse claire et distincte | Promesse courte et vérifiable, différence avec les concurrents, cohérence entre nom, message et produit | Oui, si la promesse est fausse ou trompeuse | Ne fixe pas la stratégie commerciale |
+| **Expert nommage et antériorité** | Vérifier que le nom est disponible et distinct | Recherche à l'INPI (marques), à l'EUIPO si pertinent, collisions avec des concurrents, disponibilité du domaine et des comptes de réseaux | Oui, si un nom est déjà déposé ou prête à confusion | Ne garantit pas la disponibilité : une recherche juridique reste requise |
+| **Juriste propriété intellectuelle** | Sécuriser le dépôt et les droits d'usage | Dépôt de marque, droits sur le logo et les visuels, licences des polices et des icônes, mentions de propriété | Oui, sur un élément utilisé sans droit | Ne dépose rien sans validation du fondateur |
+| **Vérificateur de cohérence de marque** | Empêcher les incohérences entre l'appli, le site et les réseaux | Nom du produit et de la société distincts, pas de nom de société dans les mentions de l'appli sans validation, logos et couleurs identiques partout | Oui, si deux noms coexistent pour la même chose | Ne décide pas du nom, il vérifie son application |
+
+## Règles de branding
+
+- Le nom du produit et le nom de la société sont distincts. Le nom de la société ne doit pas être CORTEXA, en raison de la contrainte déjà signalée et du rebranding prévu.
+- Aucun nom n'est publié tant que l'antériorité n'a pas été vérifiée par une recherche officielle.
+- Les membres de ce groupe notent dans la grille design uniquement sur la cohérence visuelle et le message ; le volet juridique est un gate, pas une note.
