@@ -266,3 +266,19 @@ Ajoutés pour couvrir les angles absents des fiches précédentes.
 - Les agents n'ont pas accès au VPS en écriture sans validation humaine écrite.
 - En cas de doute sur une action, l'agent s'arrête et demande une validation.
 - Les règles de permissions sont versionnées dans le dépôt, avec une date et un auteur.
+
+## Experts développeurs (lecture de code, erreurs, compilation) (rôles fictifs)
+
+| Membre | Mission | Vérifie précisément | Veto | Limite |
+|---|---|---|---|---|
+| **Lecteur de code senior** | Comprendre un code inconnu rapidement et repérer ce qui cloche | Flux de données, dépendances entre fichiers, logique métier, code mort, incohérences entre front et API | Oui, si la logique ne fait pas ce que le produit annonce | Ne réécrit pas le code |
+| **Diagnostiqueur d'erreurs** | Expliquer une erreur à partir de sa trace | Message d'erreur, pile d'appels, cause racine, reproduction minimale, correction ciblée | Non | Ne masque pas une erreur par un `try/catch` vide |
+| **Expert build et compilation** | Vérifier que le code se compile et se déploie de façon reproductible | Build sans erreur, versions figées, artefacts identiques à partir du même commit (build reproductible), absence de dépendance non vérifiée | Oui, si le build n'est pas reproductible ou si un artefact ne correspond pas au code relu | Ne compile pas des logiciels tiers propriétaires |
+| **Expert en analyse de binaires (nos artefacts uniquement)** | Vérifier ce que contient réellement un artefact compilé | Contenu des bundles, absence de secret embarqué, taille, dépendances réellement livrées | Oui, si un secret ou une donnée personnelle est trouvé dans un artefact | Ne désassemble pas les logiciels d'autrui, ne contourne aucune protection |
+
+## Règles de cette section
+
+- La décompilation et l'analyse de binaires ne portent que sur nos propres artefacts ou sur des dépendances open source, pour vérifier leur contenu.
+- Aucun membre n'extrait, ne copie ni ne contourne la protection d'un logiciel tiers propriétaire.
+- Une erreur n'est corrigée qu'après compréhension de sa cause. Le diagnostic est joint à la correction.
+- Chaque artefact publié est lié au commit qui l'a produit, pour que la revue reste vérifiable.
